@@ -31,10 +31,6 @@ func main() {
 
 	wg.Wait()
 
-	totalOrder := client1.GetTotalOrder()
-	for _, v := range totalOrder {
-		fmt.Println(v.source)
-		fmt.Println(v.clock)
-		fmt.Println()
-	}
+	fmt.Println(client1.GetTotalOrder())
+	fmt.Println(client2.GetTotalOrder())
 }

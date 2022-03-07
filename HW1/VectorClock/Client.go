@@ -1,6 +1,8 @@
 package main
 
-import "time"
+import (
+	"time"
+)
 
 type Event struct {
 	source int
@@ -40,7 +42,12 @@ func (c *Client) SendMessage() {
 func (c *Client) ReceiveMessage(message map[int]int, source Client) {
 	incomingBefore := true // is the incoming message before the current event
 	for PID, mClock := range message {
-		if mClock > c.vectorClock[PID] {
+		if _, ok := c.vectorClock[PID]; !ok {
+			c.vectorClock[PID] = mClock
+		} else if mClock > c.vectorClock[PID] {
+			if PID == c.ID {
+				panic("Causality Violation")
+			}
 			c.vectorClock[PID] = mClock
 		} else if mClock == c.vectorClock[PID] {
 			if PID > c.ID {

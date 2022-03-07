@@ -31,6 +31,22 @@ func main() {
 
 	wg.Wait()
 
-	fmt.Println(client1.GetTotalOrder())
-	fmt.Println(client2.GetTotalOrder())
+	fmt.Printf("Client 1: %v\n", client1.ID)
+	fmt.Printf("Client 2: %v\n", client2.ID)
+
+	fmt.Println("CLIENT 1")
+	totalOrder := client1.GetTotalOrder()
+	for _, v := range totalOrder {
+		fmt.Println(v.source)
+		fmt.Println(v.clock)
+		fmt.Println()
+	}
+
+	fmt.Println("CLIENT 2")
+	totalOrder = client2.GetTotalOrder()
+	for _, v := range totalOrder {
+		fmt.Println(v.source)
+		fmt.Println(v.clock)
+		fmt.Println()
+	}
 }
