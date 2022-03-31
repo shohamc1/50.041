@@ -6,12 +6,6 @@ import (
 	"time"
 )
 
-func waitGroupFunction(fn func(), wg *sync.WaitGroup) {
-	defer wg.Done()
-	wg.Add(1)
-	fn()
-}
-
 func main() {
 	server := Server{}
 	var wg sync.WaitGroup
@@ -30,7 +24,7 @@ func main() {
 
 		go func() {
 			defer wg.Done()
-			clients[i].EnterCS()
+			clients[i].SendRequest()
 		}()
 	}
 

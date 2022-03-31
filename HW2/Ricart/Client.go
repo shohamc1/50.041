@@ -42,9 +42,6 @@ func (c *Client) EnterCS() {
 		rand.Seed(time.Now().UnixNano())
 		delay := rand.Intn(2)
 		time.Sleep(time.Duration(delay) * time.Second)
-
-		//repLenght = c.GetRepliesLength()
-		//fmt.Println(repLenght)
 	}
 	fmt.Printf("[%d] Got all replies, entering CS.\n", c.ID)
 	c.isExecuting = true
@@ -60,12 +57,12 @@ func (c *Client) EnterCS() {
 		c.server.PassReleaseToOne(Release(c.ID), req.source)
 		fmt.Printf("[%d] Replied to %d\n", c.ID, req.source)
 	}
+	c.replies = make([]int, 0)
 }
 
 func (c *Client) ReceiveRelease(message Release) {
 	fmt.Printf("[%d] Recieved reply from %d\n", c.ID, message)
 	c.replies = append(c.replies, int(message))
-	fmt.Printf("[%d] Reply length is now %d\n", c.ID, len(c.replies))
 }
 
 func (c *Client) ReceiveCS(message Message, source Client) {
