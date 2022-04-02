@@ -29,6 +29,6 @@ func main() {
 	}
 
 	wg.Wait()
-	fmt.Println((time.Now().UnixNano() - timer) / int64(time.Millisecond))
+	fmt.Println((time.Now().UnixNano() - timer) / int64(time.Microsecond))
 	fmt.Println(server.Counter)
 }
