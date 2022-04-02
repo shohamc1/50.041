@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"sync"
 	"time"
+	"strconv"
+	"os"
 )
 
 func waitGroupFunction(fn func(), wg *sync.WaitGroup) {
@@ -16,8 +18,13 @@ func main() {
 	server := Server{}
 	var wg sync.WaitGroup
 
+	numClients, err := strconv.Atoi(os.Args[1])
+	if err != nil {
+		return
+	}
+
 	var clients []Client
-	for i := 1; i <= 15; i++ {
+	for i := 1; i <= numClients; i++ {
 		tempClient := CreateClient()
 		tempClient.RegisterServer(&server)
 		server.AddClient(&tempClient)
