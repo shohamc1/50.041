@@ -8,7 +8,7 @@ import (
 
 func main() {
 	manager := Manager{Pages: []PageManager{}}
-	
+
 	var nodes []Node
 	var tempNode Node
 
@@ -46,4 +46,25 @@ func main() {
 			fmt.Println("No node ID or key provided.")
 		}
 	}
+}
+
+func PerformanceEval() {
+	manager := Manager{Pages: []PageManager{}}
+
+	var nodes []Node
+	var tempNode Node
+
+	for i := 0; i < 10; i++ {
+		tempNode = Node{ID: int(time.Now().UnixNano()), Manager: manager}
+		nodes = append(nodes, tempNode)
+	}
+
+	nodes[0].Write(1, "Hello")
+	timer := time.Now().UnixNano()
+
+	for _, node := range nodes {
+		node.Read(1)
+	}
+
+	fmt.Printf("Time to read: %v", (time.Now().UnixNano()-timer)/int64(time.Microsecond))
 }

@@ -60,3 +60,33 @@ func main() {
 		}
 	}
 }
+
+func PerformanceEval() {
+	var managers []*Manager
+
+	for i := 0; i < 3; i++ {
+		tempManager := Manager{ID: i + 1, Pages: []PageManager{}, up: true}
+		managers = append(managers, &tempManager)
+	}
+
+	var nodes []*Node
+
+	for i := 0; i < 10; i++ {
+		tempNode := Node{ID: int(time.Now().UnixNano()), Manager: managers[0]}
+		nodes = append(nodes, &tempNode)
+	}
+
+	for _, manager := range managers {
+		manager.DeclareReplica(managers)
+		manager.UpdateNodes(nodes)
+	}
+
+	nodes[0].Write(1, "Hello")
+	timer := time.Now().UnixNano()
+
+	for _, node := range nodes {
+		node.Read(1)
+	}
+
+	fmt.Printf("Time to read: %v", (time.Now().UnixNano()-timer)/int64(time.Microsecond))
+}
